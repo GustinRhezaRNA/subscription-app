@@ -9,7 +9,7 @@ export default function SignUp() {
     return (
         <SafeAreaView className="auth-safe-area">
             <Text className="text-xl font-bold">
-                Setting
+                Settings
             </Text>
         </SafeAreaView>
     );

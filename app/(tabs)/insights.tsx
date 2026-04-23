@@ -7,7 +7,7 @@ const SafeAreaView = styled(RNSafeAreaView);
 export default function SignUp() {
     return (
         <SafeAreaView className="auth-safe-area">
-            <Text>Insight</Text>
+            <Text>Insights</Text>
         </SafeAreaView>
     );
 }
