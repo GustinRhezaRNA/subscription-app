@@ -1,17 +1,13 @@
 import "@/global.css";
-import { Text, View } from "react-native";
-import { Link } from "expo-router";
+import { Text } from "react-native";
+import { styled } from "nativewind";
+import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+const SafeAreaView = styled(RNSafeAreaView);
 
 export default function SignUp() {
     return (
-        <View className="auth-safe-area">
-            <Text className="text-xl font-bold text-background">
-               Sign Up
-            </Text>
-            <Text>Already have an account?</Text>
-            <Link href="/(auth)/sign-in" >
-                <Text className="text-accent"> Sign In</Text>
-            </Link>
-        </View>
+        <SafeAreaView className="auth-safe-area">
+            <Text>Insights</Text>
+        </SafeAreaView>
     );
 }
