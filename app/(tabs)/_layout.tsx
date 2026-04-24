@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import tabs from '@/constants/data'
+import { tabs } from '@/constants/data'
 import { Image, View, ImageSourcePropType } from "react-native";
 import clsx from "clsx";
 import { colors, components } from "@/constants/theme";
@@ -51,7 +51,7 @@ const TabLayout = () => {
             {tabs.map((tab) => (
                 <Tabs.Screen key={tab.name} name={tab.name} options={{
                     title: tab.title,
-                    tabBarIcon: ({focused}) => (
+                    tabBarIcon: ({ focused }) => (
                         <TabIcon focused={focused} icon={tab.icon} />
                     )
                 }} />
