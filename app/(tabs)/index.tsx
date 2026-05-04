@@ -6,7 +6,6 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import {
   HOME_BALANCE,
-  HOME_SUBSCRIPTIONS,
   HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
@@ -20,13 +19,14 @@ import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import { useState, useCallback } from "react";
 import { useUser } from "@clerk/expo";
 import { Pressable, TouchableOpacity } from "react-native";
+import { useSubscription } from "@/context/SubscriptionContext";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
   const { user, isLoaded } = useUser();
+  const { subscriptions, addSubscription } = useSubscription();
 
-  const [subscriptions, setSubscriptions] = useState(HOME_SUBSCRIPTIONS);
   const [modalVisible, setModalVisible] = useState(false);
   const [expandedSubscriptionId, setExpandedSubscriptionId] =
     useState<string | null>(null);
@@ -137,8 +137,7 @@ export default function App() {
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         onSubmit={(newSub) => {
-          HOME_SUBSCRIPTIONS.unshift(newSub);
-          setSubscriptions([...HOME_SUBSCRIPTIONS]);
+          addSubscription(newSub);
           setModalVisible(false);
         }}
       />

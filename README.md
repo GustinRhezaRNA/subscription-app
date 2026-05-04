@@ -30,6 +30,8 @@ A premium, state-of-the-art React Native application built with Expo to help you
     Create a `.env` file in the root directory and add your keys (see `.env.example`):
     ```env
     EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+    EXPO_PUBLIC_POSTHOG_KEY=your_posthog_key
+    EXPO_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
     ```
 
 3.  **Start the app**

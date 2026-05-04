@@ -4,24 +4,25 @@ import { styled } from "nativewind";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import { useState, useMemo } from "react";
 import SubscriptionCard from "@/components/SubscriptionCard";
-import { HOME_SUBSCRIPTIONS } from "@/constants/data";
+import { useSubscription } from "@/context/SubscriptionContext";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function SubscriptionsTab() {
+    const { subscriptions } = useSubscription();
     const [searchQuery, setSearchQuery] = useState("");
     const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string | null>(null);
 
     const filteredSubscriptions = useMemo(() => {
-        if (!searchQuery.trim()) return HOME_SUBSCRIPTIONS;
+        if (!searchQuery.trim()) return subscriptions;
         const query = searchQuery.toLowerCase();
-        return HOME_SUBSCRIPTIONS.filter(
+        return subscriptions.filter(
             (sub) =>
                 sub.name.toLowerCase().includes(query) ||
                 (sub.category && sub.category.toLowerCase().includes(query)) ||
                 (sub.plan && sub.plan.toLowerCase().includes(query))
         );
-    }, [searchQuery]);
+    }, [searchQuery, subscriptions]);
 
     return (
         <SafeAreaView className="flex-1 bg-background p-5">
