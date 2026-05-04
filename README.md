@@ -1,60 +1,58 @@
-# Welcome to your Expo app 👋
+# Subscription Manager App 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A premium, state-of-the-art React Native application built with Expo to help you track and manage your digital subscriptions with ease.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+-   **Dashboard Overview**: View your total balance and upcoming renewals at a glance.
+-   **Searchable Subscription List**: Quickly find any subscription by name, category, or plan.
+-   **Add New Subscriptions**: Easy-to-use modal interface to add new subscriptions with automatic renewal date calculation.
+-   **Expandable Details**: View detailed information about each subscription, including payment methods and billing cycles.
+-   **Secure Authentication**: Fully integrated with Clerk for secure user sign-up and sign-in.
+-   **Premium UI/UX**: Built with a custom design system using Nativewind (Tailwind CSS), featuring sleek animations and a modern aesthetic.
 
-   ```bash
-   npm install
-   ```
+## 🚀 Tech Stack
 
-2. Set up environment variables
+-   **Framework**: [Expo](https://expo.dev) / [React Native](https://reactnative.dev/)
+-   **Styling**: [Nativewind](https://www.nativewind.dev/) (Tailwind CSS for React Native)
+-   **Authentication**: [Clerk](https://clerk.com/)
+-   **Date Management**: [Day.js](https://day.js.org/)
+-   **Routing**: [Expo Router](https://docs.expo.dev/router/introduction)
 
-   Create a `.env` file in the root directory and add your Clerk Publishable Key:
+## 🛠️ Get Started
 
-   ```env
-   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-   ```
+1.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-   You can find this in your [Clerk Dashboard](https://dashboard.clerk.com/last-active?path=api-keys).
+2.  **Set up environment variables**
+    Create a `.env` file in the root directory and add your keys (see `.env.example`):
+    ```env
+    EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+    EXPO_PUBLIC_POSTHOG_KEY=your_posthog_key
+    EXPO_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+    ```
 
-3. Start the app
+3.  **Start the app**
+    ```bash
+    npx expo start
+    ```
 
-   ```bash
-   npx expo start
-   ```
+## 📱 Platform Support
 
-In the output, you'll find options to open the app in a
+-   [Android Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+-   [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
+-   [Expo Go](https://expo.dev/go)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📂 Project Structure
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+-   `app/`: File-based routing and screen layouts.
+-   `components/`: Reusable UI components (Modals, Cards, Headings).
+-   `constants/`: App theme, dummy data, and icon assets.
+-   `lib/`: Utility functions for formatting and logic.
+-   `assets/`: Images and icon files.
 
-## Get a fresh project
+---
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Built using Expo and Nativewind.

@@ -5,8 +5,12 @@ import { useEffect } from "react";
 import { ClerkProvider } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache';
 import { Text, View } from "react-native";
+import { PostHogProvider } from 'posthog-react-native';
+import { SubscriptionProvider } from "@/context/SubscriptionContext";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const posthogKey = process.env.EXPO_PUBLIC_POSTHOG_KEY;
+const posthogHost = process.env.EXPO_PUBLIC_POSTHOG_HOST;
 
 if (!publishableKey) {
   throw new Error('Add your Clerk Publishable Key to the .env file');
@@ -38,9 +42,9 @@ export default function RootLayout() {
     );
   }
 
-  return (
-    <ClerkProvider 
-      publishableKey={publishableKey} 
+  const content = (
+    <ClerkProvider
+      publishableKey={publishableKey!}
       tokenCache={tokenCache}
       taskUrls={{
         'choose-organization': '/(auth)/tasks/choose-organization',
@@ -48,7 +52,22 @@ export default function RootLayout() {
         'setup-mfa': '/(auth)/tasks/setup-mfa',
       }}
     >
-      <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
+      <SubscriptionProvider>
+        <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
+      </SubscriptionProvider>
     </ClerkProvider>
   );
+
+  if (posthogKey) {
+    return (
+      <PostHogProvider
+        apiKey={posthogKey}
+        options={{ host: posthogHost }}
+      >
+        {content}
+      </PostHogProvider>
+    );
+  }
+
+  return content;
 }

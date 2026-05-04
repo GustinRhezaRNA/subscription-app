@@ -53,7 +53,8 @@
         }
       ],
       "expo-secure-store",
-      "@clerk/expo"
+      "@clerk/expo",
+      "expo-localization"
     ],
     "extra": {
       "clerkPublishableKey": "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY"

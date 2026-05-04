@@ -6,7 +6,6 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import {
   HOME_BALANCE,
-  HOME_SUBSCRIPTIONS,
   HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
@@ -16,14 +15,19 @@ import dayjs from "dayjs";
 import ListHeading from "@/components/ListHeading";
 import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
 import SubscriptionCard from "@/components/SubscriptionCard";
+import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import { useState, useCallback } from "react";
 import { useUser } from "@clerk/expo";
+import { Pressable, TouchableOpacity } from "react-native";
+import { useSubscription } from "@/context/SubscriptionContext";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
   const { user, isLoaded } = useUser();
+  const { subscriptions, addSubscription } = useSubscription();
 
+  const [modalVisible, setModalVisible] = useState(false);
   const [expandedSubscriptionId, setExpandedSubscriptionId] =
     useState<string | null>(null);
 
@@ -49,7 +53,19 @@ export default function App() {
             </Text>
           </View>
 
-          <Image source={icons.add} className="home-add-icon" />
+          <TouchableOpacity 
+            onPress={() => setModalVisible(true)} 
+            activeOpacity={0.7}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            className="size-12 items-center justify-center"
+          >
+            <Image 
+              source={icons.add} 
+              className="home-add-icon" 
+              style={{ width: 48, height: 48 }}
+              contentFit="contain"
+            />
+          </TouchableOpacity>
         </View>
 
         <View className="home-balance-card">
@@ -85,7 +101,7 @@ export default function App() {
         <ListHeading title="All Subscriptions" />
       </>
     ),
-    [user, avatarUrl]
+    [user, avatarUrl, setModalVisible]
   );
 
   if (!isLoaded) return null;
@@ -94,7 +110,7 @@ export default function App() {
     <SafeAreaView className="flex-1 bg-background p-5">
       <FlatList
         ListHeaderComponent={renderHeader}
-        data={HOME_SUBSCRIPTIONS}
+        data={subscriptions}
         renderItem={({ item }) => (
           <SubscriptionCard
             {...item}
@@ -116,6 +132,14 @@ export default function App() {
         extraData={expandedSubscriptionId}
         ItemSeparatorComponent={() => <View className="h-4" />}
         contentContainerClassName="pb-20"
+      />
+      <CreateSubscriptionModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSubmit={(newSub) => {
+          addSubscription(newSub);
+          setModalVisible(false);
+        }}
       />
     </SafeAreaView>
   );
