@@ -417,4 +417,68 @@
     .category-chip-text-active {
         @apply text-accent;
     }
+
+    .settings-screen {
+        @apply flex-1 px-5 pt-10;
+    }
+
+    .settings-title {
+        @apply text-3xl font-sans-bold text-primary mb-8;
+    }
+
+    .settings-user-card {
+        @apply items-center rounded-3xl border border-border bg-card p-8 mb-8;
+    }
+
+    .settings-avatar-container {
+        @apply relative mb-4;
+    }
+
+    .settings-avatar {
+        @apply size-24 rounded-full border-4 border-background;
+    }
+
+    .settings-user-name {
+        @apply text-2xl font-sans-bold text-primary text-center;
+    }
+
+    .settings-user-email {
+        @apply text-base font-sans-medium text-muted-foreground text-center;
+    }
+
+    .settings-actions {
+        @apply gap-4;
+    }
+
+    .logout-button {
+        @apply flex-row items-center justify-center gap-3 rounded-2xl bg-destructive px-6 py-4;
+    }
+
+    .logout-button-text {
+        @apply text-lg font-sans-bold text-white;
+    }
+
+    .settings-section-title {
+        @apply text-xl font-sans-bold text-primary mb-4 px-2;
+    }
+
+    .settings-info-card {
+        @apply rounded-3xl border border-border bg-card p-6 mb-8;
+    }
+
+    .settings-info-row {
+        @apply flex-row items-center justify-between py-3;
+    }
+
+    .settings-info-border {
+        @apply border-b border-border/50;
+    }
+
+    .settings-info-label {
+        @apply text-base font-sans-medium text-muted-foreground;
+    }
+
+    .settings-info-value {
+        @apply text-base font-sans-bold text-primary;
+    }
 }

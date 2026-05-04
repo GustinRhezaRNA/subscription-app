@@ -1,15 +1,30 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { tabs } from '@/constants/data'
 import { Image, View, ImageSourcePropType } from "react-native";
 import clsx from "clsx";
 import { colors, components } from "@/constants/theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAuth } from "@clerk/expo";
+import { Text } from "react-native";
 
 
 const TabLayout = () => {
 
+    const { isSignedIn, isLoaded } = useAuth();
     const tabBar = components.tabBar;
     const insets = useSafeAreaInsets();
+
+    if (!isLoaded) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <Text>Loading Tabs...</Text>
+            </View>
+        );
+    }
+
+    if (!isSignedIn) {
+        return <Redirect href="/(auth)/sign-in" />;
+    }
 
     const TabIcon = ({ focused, icon }: { focused: boolean, icon: ImageSourcePropType }) => {
         return (
