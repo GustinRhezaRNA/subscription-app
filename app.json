@@ -51,8 +51,13 @@
             "./assets/fonts/PlusJakartaSans-ExtraBold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-secure-store",
+      "@clerk/expo"
     ],
+    "extra": {
+      "clerkPublishableKey": "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY"
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

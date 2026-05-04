@@ -10,7 +10,17 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Set up environment variables
+
+   Create a `.env` file in the root directory and add your Clerk Publishable Key:
+
+   ```env
+   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+   ```
+
+   You can find this in your [Clerk Dashboard](https://dashboard.clerk.com/last-active?path=api-keys).
+
+3. Start the app
 
    ```bash
    npx expo start

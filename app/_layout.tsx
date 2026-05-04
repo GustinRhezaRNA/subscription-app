@@ -2,8 +2,17 @@ import "@/global.css"
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
+import { ClerkProvider } from '@clerk/expo';
+import { tokenCache } from '@clerk/expo/token-cache';
+import { Text, View } from "react-native";
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+if (!publishableKey) {
+  throw new Error('Add your Clerk Publishable Key to the .env file');
+}
+
 export const unstable_settings = {
-  // Ensure that reloading on `/` keeps the user in the `(tabs)` layout.
   initialRouteName: '(tabs)',
 };
 
@@ -22,10 +31,24 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading Fonts...</Text>
+      </View>
+    );
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
+    <ClerkProvider 
+      publishableKey={publishableKey} 
+      tokenCache={tokenCache}
+      taskUrls={{
+        'choose-organization': '/(auth)/tasks/choose-organization',
+        'reset-password': '/(auth)/tasks/reset-password',
+        'setup-mfa': '/(auth)/tasks/setup-mfa',
+      }}
+    >
+      <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
+    </ClerkProvider>
   );
 }
