@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { ClerkProvider } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache';
 import { Text, View } from "react-native";
+import { PostHogProvider } from 'posthog-react-native';
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -39,16 +40,21 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider 
-      publishableKey={publishableKey} 
-      tokenCache={tokenCache}
-      taskUrls={{
-        'choose-organization': '/(auth)/tasks/choose-organization',
-        'reset-password': '/(auth)/tasks/reset-password',
-        'setup-mfa': '/(auth)/tasks/setup-mfa',
-      }}
+    <PostHogProvider
+      apiKey={process.env.EXPO_PUBLIC_POSTHOG_KEY!}
+      options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
     >
-      <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
-    </ClerkProvider>
+      <ClerkProvider
+        publishableKey={publishableKey}
+        tokenCache={tokenCache}
+        taskUrls={{
+          'choose-organization': '/(auth)/tasks/choose-organization',
+          'reset-password': '/(auth)/tasks/reset-password',
+          'setup-mfa': '/(auth)/tasks/setup-mfa',
+        }}
+      >
+        <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
+      </ClerkProvider>
+    </PostHogProvider>
   );
 }
