@@ -12,33 +12,37 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   const onSignInPress = async () => {
-    const { error } = await signIn.password({
-      emailAddress,
-      password,
-    });
-
-    if (error) {
-      console.error(JSON.stringify(error, null, 2));
-      return;
-    }
-
-    if (signIn.status === "complete") {
-      await signIn.finalize({
-        navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
-          const url = decorateUrl("/(tabs)");
-          if (url.startsWith("http")) {
-            window.location.href = url;
-          } else {
-            router.replace(url as Href);
-          }
-        },
+    try {
+      const { error } = await signIn.password({
+        emailAddress,
+        password,
       });
-    } else {
-      console.error("Sign-in attempt not complete:", signIn);
+
+      if (error) {
+        console.error("Sign-in error:", error.message || "Unknown error");
+        return;
+      }
+
+      if (signIn.status === "complete") {
+        await signIn.finalize({
+          navigate: ({ session, decorateUrl }) => {
+            if (session?.currentTask) {
+              console.log("Pending session task:", session.currentTask);
+              return;
+            }
+            const url = decorateUrl("/(tabs)");
+            if (url.startsWith("http")) {
+              window.location.href = url;
+            } else {
+              router.replace(url as Href);
+            }
+          },
+        });
+      } else {
+        console.error("Sign-in attempt not complete. Status:", signIn.status);
+      }
+    } catch (err: any) {
+      console.error("Sign-in execution error:", err.message || "An unexpected error occurred");
     }
   };
 

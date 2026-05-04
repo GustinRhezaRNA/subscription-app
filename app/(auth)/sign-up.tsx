@@ -14,41 +14,49 @@ export default function SignUp() {
   const [code, setCode] = useState("");
 
   const onSignUpPress = async () => {
-    const { error } = await signUp.password({
-      emailAddress,
-      password,
-    });
+    try {
+      const { error } = await signUp.password({
+        emailAddress,
+        password,
+      });
 
-    if (error) {
-      console.error(JSON.stringify(error, null, 2));
-      return;
+      if (error) {
+        console.error("Sign-up error:", error.message || "Unknown error");
+        return;
+      }
+
+      if (!error) await signUp.verifications.sendEmailCode();
+    } catch (err: any) {
+      console.error("Sign-up execution error:", err.message || "An unexpected error occurred");
     }
-
-    if (!error) await signUp.verifications.sendEmailCode();
   };
 
   const onPressVerify = async () => {
-    await signUp.verifications.verifyEmailCode({
-      code,
-    });
-
-    if (signUp.status === "complete") {
-      await signUp.finalize({
-        navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
-          const url = decorateUrl("/(tabs)");
-          if (url.startsWith("http")) {
-            window.location.href = url;
-          } else {
-            router.replace(url as Href);
-          }
-        },
+    try {
+      await signUp.verifications.verifyEmailCode({
+        code,
       });
-    } else {
-      console.error("Sign-up attempt not complete:", signUp);
+
+      if (signUp.status === "complete") {
+        await signUp.finalize({
+          navigate: ({ session, decorateUrl }) => {
+            if (session?.currentTask) {
+              console.log("Pending session task:", session.currentTask);
+              return;
+            }
+            const url = decorateUrl("/(tabs)");
+            if (url.startsWith("http")) {
+              window.location.href = url;
+            } else {
+              router.replace(url as Href);
+            }
+          },
+        });
+      } else {
+        console.error("Sign-up attempt not complete. Status:", signUp.status);
+      }
+    } catch (err: any) {
+      console.error("Verification execution error:", err.message || "An unexpected error occurred");
     }
   };
 
@@ -167,10 +175,20 @@ export default function SignUp() {
                   </Pressable>
                   
                   <Pressable
-                    onPress={() => signUp.verifications.sendEmailCode()}
-                    className="auth-secondary-button mt-2"
+                    onPress={async () => {
+                      if (loading) return;
+                      try {
+                        await signUp.verifications.sendEmailCode();
+                      } catch (err: any) {
+                        console.error("Resend code error:", err.message || "Failed to resend code");
+                      }
+                    }}
+                    disabled={loading}
+                    className={`auth-secondary-button mt-2 ${loading ? "opacity-50" : ""}`}
                   >
-                     <Text className="auth-secondary-button-text">I need a new code</Text>
+                     <Text className="auth-secondary-button-text">
+                       {loading ? "Sending..." : "I need a new code"}
+                     </Text>
                   </Pressable>
                 </>
               )}

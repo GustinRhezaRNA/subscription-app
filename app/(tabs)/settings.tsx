@@ -16,8 +16,8 @@ export default function Settings() {
   const handleLogout = async () => {
     try {
       await signOut();
-    } catch (err) {
-      console.error("Logout error:", err);
+    } catch (err: any) {
+      console.error("Logout error:", err.message || "Failed to sign out");
     }
   };
 

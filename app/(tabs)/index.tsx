@@ -27,8 +27,6 @@ export default function App() {
   const [expandedSubscriptionId, setExpandedSubscriptionId] =
     useState<string | null>(null);
 
-  if (!isLoaded) return null;
-
   const avatarUrl = user?.imageUrl
     ? `${user.imageUrl}?width=200&height=200&quality=100&fit=crop`
     : null;
@@ -89,6 +87,8 @@ export default function App() {
     ),
     [user, avatarUrl]
   );
+
+  if (!isLoaded) return null;
 
   return (
     <SafeAreaView className="flex-1 bg-background p-5">

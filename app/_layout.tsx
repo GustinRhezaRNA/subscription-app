@@ -6,7 +6,7 @@ import { ClerkProvider } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache';
 import { Text, View } from "react-native";
 
-const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 if (!publishableKey) {
   throw new Error('Add your Clerk Publishable Key to the .env file');
@@ -39,7 +39,15 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+    <ClerkProvider 
+      publishableKey={publishableKey} 
+      tokenCache={tokenCache}
+      taskUrls={{
+        'choose-organization': '/(auth)/tasks/choose-organization',
+        'reset-password': '/(auth)/tasks/reset-password',
+        'setup-mfa': '/(auth)/tasks/setup-mfa',
+      }}
+    >
       <Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)" />
     </ClerkProvider>
   );
